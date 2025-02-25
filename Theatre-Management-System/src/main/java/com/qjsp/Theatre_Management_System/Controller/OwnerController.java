@@ -16,6 +16,10 @@ import com.qjsp.Theatre_Management_System.dto.Owner;
 import com.qjsp.Theatre_Management_System.util.ResponseStructure;
 import com.qjsp.Theatre_Management_System.util.ResponseStructureList;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/owner/api")
 public class OwnerController {
@@ -24,6 +28,11 @@ public class OwnerController {
 	public OwnerService ownerService;
 
 //	http://localhost:8080/owner/api/saveOwner
+	@Operation(summary = "Save Owner", description = "API is used to save the Owner")
+	@ApiResponses( value= {
+			@ApiResponse(responseCode = "201", description = "Successfully created"),
+			@ApiResponse(responseCode = "404", description = "Owner not found for the given id")		
+	})
 	@PostMapping("/saveOwner")
 	public ResponseStructure<Owner> saveOwner(@RequestBody Owner owner) {
 
@@ -31,6 +40,14 @@ public class OwnerController {
 	}
  
 //	http://localhost:8080/owner/api/1
+	
+	@Operation(summary = "Delete the Owner with given Id", description = "API is used to delete the owner")
+	@ApiResponses( value= {
+			@ApiResponse(responseCode = "200", description = "OK Successfully Owner Deleted"),
+			@ApiResponse(responseCode = "404", description = "Owner Not found in the Data base"),
+			@ApiResponse(responseCode = "204", description = "Owner Deleted Successfully")		
+	})
+	
 	@DeleteMapping("/{owner-id}")
 	public ResponseStructure<Owner> deleteOwnerById(@PathVariable("owner-id") int ownerId) {
 		ResponseStructure<Owner> owner = ownerService.deleteOwnerById(ownerId);
